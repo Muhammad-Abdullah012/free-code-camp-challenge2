@@ -16,6 +16,7 @@ const db = knex({
  },
  useNullAsDefault: true
 });
+
 const options = {
   family: 0,
   hints: dns.ADDRCONFIG | dns.V4MAPPED,
@@ -38,12 +39,13 @@ app.get('/', (req, res) => {
 app.post('/api/shorturl/', (req, res) => {
   const url = req.body.url.split('//www.');
   const index = url.length - 1;
-  if(index === 0) {
-    res.json({error: "Invalid URL"});
+  if(index === 0) { //url must contain protocol and ://www.
+    res.json({error: "Invalid URL"});   
   }
+  //validate url
   dns.lookup(url[index], options , async (err,address,family) => {
-    if(!err) {
-      let shortUrl = await insertInTable(db,req.body.url);
+    if(!err) {  //if url is valid
+      let shortUrl = await insertInTable(db,req.body.url);  //store url in db and return an object with id(which is used as short url) and full url
       res.json({ original_url: shortUrl.urls, short_url: shortUrl.id });
     }
     else {
@@ -53,17 +55,19 @@ app.post('/api/shorturl/', (req, res) => {
 });
 
 app.get('/api/shorturl/:url', async (req,res) => {
-  let url = req.params.url;
-  let OriginalUrl = await getUrlById(db, url).catch(err => {console.error(err)});
-  if(!OriginalUrl || OriginalUrl.length === 0) {
+  let url = req.params.url;   //this is short url, which means it is id of original url in our db
+  let OriginalUrl = await getUrlById(db, url);
+  //if "OriginalUrl" is undefined
+  if(!OriginalUrl) {
     res.json({error: "No short URL found for the given input"});
   }
   else {
-    // let headers = req.headers;
-    // headers.host = OriginalUrl.urls;
-    // res.set(headers)
-    // res.redirect(OriginalUrl.urls);
-    res.redirect(OriginalUrl.urls);
+    //Now change host in request to original/full url
+    let headers = req.headers;
+    headers.host = OriginalUrl.urls;
+    //Now set header of res to header in req 
+    res.set(headers);
+    res.redirect(OriginalUrl.urls);   //redirect user to original/full url
   }
 });
 
