@@ -5,6 +5,8 @@ body {
   background-color: #fff;
   text-align: center;
   line-height: 1.4em;
+  min-height: 100vh;
+  margin: 0;
 }
 
 main {
@@ -43,4 +45,10 @@ input {
 input[type='text'] {
   width: 220px;
   text-align: center;
+}
+
+footer {
+  position: relative;
+  bottom: 0;
+  width: 100%;
 }

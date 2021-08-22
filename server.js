@@ -54,12 +54,16 @@ app.post('/api/shorturl/', (req, res) => {
 
 app.get('/api/shorturl/:url', async (req,res) => {
   let url = req.params.url;
-  let OriginalUrl = await getUrlById(db, url);
+  let OriginalUrl = await getUrlById(db, url).catch(err => {console.error(err)});
   if(!OriginalUrl || OriginalUrl.length === 0) {
     res.json({error: "No short URL found for the given input"});
   }
   else {
-    res.redirect(`${OriginalUrl.urls}`);
+    // let headers = req.headers;
+    // headers.host = OriginalUrl.urls;
+    // res.set(headers)
+    // res.redirect(OriginalUrl.urls);
+    res.redirect(OriginalUrl.urls);
   }
 });
 
