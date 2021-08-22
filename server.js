@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const knex = require('knex');
 const bodyParser = require('body-parser');
-const {createTable, insertInTable, getUrl, getUrlById} = require('./database_work/db_work');
+const {createTable, insertInTable, getUrlById} = require('./database_work/db_work');
 const dns = require('dns');
 
 
@@ -58,7 +58,9 @@ app.get('/api/shorturl/:url', async (req,res) => {
   if(!OriginalUrl || OriginalUrl.length === 0) {
     res.json({error: "No short URL found for the given input"});
   }
-  res.redirect(`${OriginalUrl.urls}`);
+  else {
+    res.redirect(`${OriginalUrl.urls}`);
+  }
 });
 
 app.listen(port, () => {

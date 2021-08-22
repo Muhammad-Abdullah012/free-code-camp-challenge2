@@ -48,6 +48,5 @@ const getUrlById = async (db, id) => {
 module.exports = {
     createTable,
     insertInTable,
-    getUrl,
     getUrlById
 }
