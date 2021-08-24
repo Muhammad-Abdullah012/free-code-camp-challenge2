@@ -39,7 +39,7 @@ app.get('/', (req, res) => {
 app.post('/api/shorturl/', (req, res) => {
   let url = req.body.url.split('/');
   const index = 2;
-  if(url[0] !== 'https' || url[0] !== 'http') { 
+  if(url[0] !== 'https:' && url[0] !== 'http:') { 
     return res.json({error: "Invalid URL"});   
   }
   //validate url
