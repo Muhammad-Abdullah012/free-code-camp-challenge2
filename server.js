@@ -37,10 +37,9 @@ app.get('/', (req, res) => {
 
 // Your first API endpoint
 app.post('/api/shorturl/', (req, res) => {
-  let url = req.body.url;
-  url = url.split('//www.') || url.split(':/') || url.split('/');
-  const index = url.length - 1;
-  if(index === 0) { 
+  let url = req.body.url.split('/');
+  const index = 2;
+  if(url[0] !== 'https' || url[0] !== 'http') { 
     return res.json({error: "Invalid URL"});   
   }
   //validate url
