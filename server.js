@@ -37,7 +37,7 @@ app.get('/', (req, res) => {
 
 // Your first API endpoint
 app.post('/api/shorturl/', (req, res) => {
-  const url = req.body.url;
+  let url = req.body.url;
   url = url.split('//www.') || url.split(':/') || url.split('/');
   const index = url.length - 1;
   if(index === 0) { 
