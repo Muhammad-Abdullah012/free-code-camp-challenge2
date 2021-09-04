@@ -62,7 +62,7 @@ app.get('/api/shorturl/:url', async (req,res) => {
   if(url) {
     return res.json({error: "Wrong format"});
   }
-  let OriginalUrl = await getUrlById(db, url);
+  let OriginalUrl = await getUrlById(db, urlSent);
   //if "OriginalUrl" is undefined
   if(!OriginalUrl) {
     return res.json({error: "No short URL found for the given input"});

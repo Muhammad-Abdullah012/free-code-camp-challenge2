@@ -18,7 +18,7 @@ const createTable = (db,name) => {
 const insertInTable = async (db, url) => {
     let shortURL = null;
     shortURL = await getUrl(db, url);
-    if(!shortURL) {
+    if(!shortURL || shortURL.length === 0) {
         db.insert({urls: url})
         .into("shortUrls")
         .catch(err => {
